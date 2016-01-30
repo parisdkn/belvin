@@ -32,7 +32,7 @@ $app->get('/api/wines', function (Request $request, Response $response) {
 
 $app->get('/api/wines/{id}', function (Request $request, Response $response, $args) {
     try {
-		$id = $args['id'];
+	$id = $args['id'];
         $db = thisConnection();
         $stmt = $db->query("SELECT* FROM wine WHERE id=".$id." ORDER BY name");
         $wines = $stmt->fetchAll(PDO::FETCH_OBJ);
@@ -60,7 +60,7 @@ $app->get('/api/wines/search/{keyword}', function (Request $request, Response $r
 });
 
 /**
-*
+*TO DO
 *tester et checker les erreurs resultantes
 *verifier  et securiser les données
 **/
@@ -72,12 +72,12 @@ $app->post('/api/add/wines', function (Request $request, Response $response) {
     try {
         $db = thisConnection();
         $stmt = $db->prepare($sql) or exit(print_r($db->errorInfo()));
-		$stmt->bindParam("name", $input->name);  //remplacer $input->name par $name etc.
-		$stmt->bindParam("grapes", $input->grapes);
-		$stmt->bindParam("country", $input->country);
-		$stmt->bindParam("region", $input->region);
-		$stmt->bindParam("year", $input->year);
-		$stmt->bindParam("description", $input->description);
+	$stmt->bindParam("name", $input->name);  //remplacer $input->name par $name etc.
+	$stmt->bindParam("grapes", $input->grapes);
+	$stmt->bindParam("country", $input->country);
+	$stmt->bindParam("region", $input->region);
+	$stmt->bindParam("year", $input->year);
+	$stmt->bindParam("description", $input->description);
         $stmt->execute();
         $input->id = $db->lastInsertId(); 
         $response->getBody()->write(json_encode($input));
@@ -97,13 +97,13 @@ $app->put('/api/wines/{id}', function (Request $request, Response $response, $ar
     try {
         $db = thisConnection();
         $stmt = $db->prepare($sql);
-		$stmt->bindParam("name", $input->name);
-		$stmt->bindParam("grapes", $input->grapes);
-		$stmt->bindParam("country", $input->country);
-		$stmt->bindParam("region", $input->region);
-		$stmt->bindParam("year", $input->year);
-		$stmt->bindParam("description", $input->description);
-		$stmt->bindParam("id", $id);
+	$stmt->bindParam("name", $input->name);
+	$stmt->bindParam("grapes", $input->grapes);
+	$stmt->bindParam("country", $input->country);
+	$stmt->bindParam("region", $input->region);
+	$stmt->bindParam("year", $input->year);
+	$stmt->bindParam("description", $input->description);
+	$stmt->bindParam("id", $id);
         $stmt->execute();
         $response->getBody()->write(json_encode($input));
     } catch(PDOException $e) {
@@ -118,9 +118,9 @@ $app->delete('/api/wines/{id}', function (Request $request, Response $response, 
     try {
         $db = thisConnection();
         $stmt = $db->prepare("DELETE FROM wine WHERE id=:id");
-		$stmt->bindParam("id", $id);
+	$stmt->bindParam("id", $id);
         $lignes = $stmt->execute();
-		$response->getBody()->write($lignes.' ligne(s) supprimée(s)');
+	$response->getBody()->write($lignes.' ligne(s) supprimée(s)');
     } catch(PDOException $e) {
         $response->getBody()->write('{"error":'. $e->getMessage() .'}');
         die();
